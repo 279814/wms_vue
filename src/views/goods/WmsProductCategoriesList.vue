@@ -5,8 +5,8 @@
       <!--插槽:table标题-->
       <template #tableTitle>
           <a-button type="primary" v-auth="'goods:wms_product_categories:add'" @click="handleCreate" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'goods:wms_product_categories:exportXls'"  preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button  type="primary" v-auth="'goods:wms_product_categories:importExcel'"  preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+<!--          <a-button  type="primary" v-auth="'goods:wms_product_categories:exportXls'"  preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>-->
+<!--          <j-upload-button  type="primary" v-auth="'goods:wms_product_categories:importExcel'"  preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>-->
 
           <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
@@ -22,7 +22,7 @@
           </a-button>
         </a-dropdown>
         <!-- 高级查询 -->
-        <super-query :config="superQueryConfig" @search="handleSuperQuery" />
+<!--        <super-query :config="superQueryConfig" @search="handleSuperQuery" />-->
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -74,7 +74,7 @@
            fixed:'right'
          },
          beforeFetch: (params) => {
-           params.hasQuery = "true"; 
+           params.hasQuery = "true";
            return Object.assign(params, queryParam);
          },
     },
@@ -324,6 +324,7 @@
        }
      ]
    }
+
 
 </script>
 

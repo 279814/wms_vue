@@ -1,5 +1,8 @@
 import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
+import { rules} from '/@/utils/helper/validator';
+import { render } from '/@/utils/common/renderUtils';
+import { getWeekMonthQuarterYear } from '/@/utils';
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -20,7 +23,10 @@ export const columns: BasicColumn[] = [
    {
     title: '状态',
     align:"center",
-    dataIndex: 'status_dictText'
+     dataIndex: 'status',
+     customRender: ({text}) => {
+       return render.renderDict(text, 'wms_status');
+     }
    },
 ];
 //查询数据
@@ -32,7 +38,7 @@ export const formSchema: FormSchema[] = [
     label: '仓库代码',
     field: 'warehouseCode',
     component: 'Input',
-    dynamicRules: () => {
+    dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入仓库代码!'},
           ];
@@ -42,7 +48,7 @@ export const formSchema: FormSchema[] = [
     label: '仓库名称',
     field: 'warehouseName',
     component: 'Input',
-    dynamicRules: () => {
+    dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入仓库名称!'},
           ];
@@ -55,7 +61,7 @@ export const formSchema: FormSchema[] = [
     componentProps:{
         dictCode:"warehouse_attr"
      },
-    dynamicRules: () => {
+    dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入仓库属性!'},
           ];
@@ -65,12 +71,11 @@ export const formSchema: FormSchema[] = [
     label: '状态',
     field: 'status',
     component: 'JDictSelectTag',
-    //不允许输入
     componentProps:{
-        dictCode:"wms_status",
-        disabled: true,
+      dictCode:"wms_status",
+      disabled: true,
      },
-    dynamicRules: () => {
+    dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入状态!'},
           ];
@@ -90,7 +95,7 @@ export const superQuerySchema = {
   warehouseCode: {title: '仓库代码',order: 0,view: 'text', type: 'string',},
   warehouseName: {title: '仓库名称',order: 1,view: 'text', type: 'string',},
   warehouseAttr: {title: '仓库属性',order: 2,view: 'list', type: 'string',dictCode: 'warehouse_attr',},
-  status: {title: '状态: 创建,启动,禁用',order: 3,view: 'list', type: 'string',dictCode: 'dict_item_status',},
+  status: {title: '状态',order: 3,view: 'number', type: 'number',dictCode: 'dict_item_status',},
 };
 
 /**

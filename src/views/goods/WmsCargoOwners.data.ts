@@ -3,6 +3,7 @@ import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import { getWeekMonthQuarterYear } from '/@/utils';
+import {duplicateCheckDelay} from "@/views/system/user/user.api";
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -94,15 +95,19 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'settlementCurrency_dictText'
    },
-   {
+  {
     title: '状态',
     align:"center",
-    dataIndex: 'status_dictText'
-   },
+    dataIndex: 'status',
+    customRender: ({text}) => {
+      return render.renderDict(text, 'dict_item_status');
+    }
+  },
+
    {
     title: '备注',
     align:"center",
-    dataIndex: 'remarks'
+    dataIndex: 'remarks',
    },
 ];
 //查询数据
@@ -118,6 +123,30 @@ export const formSchema: FormSchema[] = [
     componentProps:  {
       disabled: true,
     },
+    // dynamicRules: ({model,schema}) => {
+    //       return [
+    //              { required: true, message: '请输入货主編码'},
+    //         {
+    //           validator: (_, value) => {
+    //             return new Promise((resolve, reject) => {
+    //               let params = {
+    //                 tableName: 'wms_cargo_owners',
+    //                 fieldName: 'owner_code',
+    //                 fieldVal: value,
+    //                 dataId: model.id,
+    //               };
+    //               duplicateCheckDelay(params)
+    //                 .then((res) => {
+    //                   res.success ? resolve() : reject(res.message || '校验失败');
+    //                 })
+    //                 .catch((err) => {
+    //                   reject(err.message || '验证失败');
+    //                 });
+    //             });
+    //           },
+    //         },
+    //       ];
+    //  },
   },
   {
     label: '货主名称',
@@ -129,6 +158,16 @@ export const formSchema: FormSchema[] = [
     field: 'country',
     component: 'Input',
   },
+  // {
+  //   field: 'pca1',
+  //   component: 'JAreaSelect',
+  //   label: '省市区级联',
+  //   helpMessage: ['component模式'],
+  //   defaultValue: '140302',
+  //   colProps: {
+  //     span: 12,
+  //   },
+  // },
   {
     label: '城市',
     field: 'city',

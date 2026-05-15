@@ -5,8 +5,8 @@
      <!--插槽:table标题-->
       <template #tableTitle>
           <a-button type="primary" v-auth="'goods:wms_product_brand:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'goods:wms_product_brand:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" v-auth="'goods:wms_product_brand:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+<!--          <a-button  type="primary" v-auth="'goods:wms_product_brand:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>-->
+<!--          <j-upload-button type="primary" v-auth="'goods:wms_product_brand:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>-->
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -16,12 +16,12 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button v-auth="'goods:wms_product_brand:deleteBatch'">批量操作
-                <Icon icon="mdi:chevron-down"></Icon>
-              </a-button>
+<!--              <a-button v-auth="'goods:wms_product_brand:deleteBatch'">批量操作-->
+<!--                <Icon icon="mdi:chevron-down"></Icon>-->
+<!--              </a-button>-->
         </a-dropdown>
         <!-- 高级查询 -->
-        <super-query :config="superQueryConfig" @search="handleSuperQuery" />
+<!--        <super-query :config="superQueryConfig" @search="handleSuperQuery" />-->
       </template>
        <!--操作栏-->
       <template #action="{ record }">
@@ -179,7 +179,6 @@
          }
        ]
    }
-
 
 
 </script>

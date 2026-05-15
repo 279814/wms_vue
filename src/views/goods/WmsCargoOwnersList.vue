@@ -5,8 +5,8 @@
      <!--插槽:table标题-->
       <template #tableTitle>
           <a-button type="primary" v-auth="'goods:wms_cargo_owners:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'goods:wms_cargo_owners:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" v-auth="'goods:wms_cargo_owners:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+<!--          <a-button  type="primary" v-auth="'goods:wms_cargo_owners:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>-->
+<!--          <j-upload-button type="primary" v-auth="'goods:wms_cargo_owners:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>-->
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -21,7 +21,7 @@
               </a-button>
         </a-dropdown>
         <!-- 高级查询 -->
-        <super-query :config="superQueryConfig" @search="handleSuperQuery" />
+<!--        <super-query :config="superQueryConfig" @search="handleSuperQuery" />-->
       </template>
        <!--操作栏-->
       <template #action="{ record }">
@@ -189,7 +189,6 @@
          }
        ]
    }
-
 
 
 </script>

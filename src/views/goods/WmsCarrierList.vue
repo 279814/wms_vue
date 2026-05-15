@@ -4,9 +4,9 @@
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
-          <a-button type="primary" v-auth="'warehouse:wms_storage_zones:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-<!--          <a-button  type="primary" v-auth="'warehouse:wms_storage_zones:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>-->
-<!--          <j-upload-button type="primary" v-auth="'warehouse:wms_storage_zones:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>-->
+          <a-button type="primary" v-auth="'goods:wms_carrier:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+          <a-button  type="primary" v-auth="'goods:wms_carrier:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+          <j-upload-button type="primary" v-auth="'goods:wms_carrier:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -16,12 +16,12 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button v-auth="'warehouse:wms_storage_zones:deleteBatch'">批量操作
+              <a-button v-auth="'goods:wms_carrier:deleteBatch'">批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
         </a-dropdown>
         <!-- 高级查询 -->
-<!--        <super-query :config="superQueryConfig" @search="handleSuperQuery" />-->
+        <super-query :config="superQueryConfig" @search="handleSuperQuery" />
       </template>
        <!--操作栏-->
       <template #action="{ record }">
@@ -32,18 +32,18 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <WmsStorageZonesModal @register="registerModal" @success="handleSuccess"></WmsStorageZonesModal>
+    <WmsCarrierModal @register="registerModal" @success="handleSuccess"></WmsCarrierModal>
   </div>
 </template>
 
-<script lang="ts" name="warehouse-wmsStorageZones" setup>
+<script lang="ts" name="goods-wmsCarrier" setup>
   import {ref, reactive, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import {useModal} from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage'
-  import WmsStorageZonesModal from './components/WmsStorageZonesModal.vue'
-  import {columns, searchFormSchema, superQuerySchema} from './WmsStorageZones.data';
-  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './WmsStorageZones.api';
+  import WmsCarrierModal from './components/WmsCarrierModal.vue'
+  import {columns, searchFormSchema, superQuerySchema} from './WmsCarrier.data';
+  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './WmsCarrier.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import { useUserStore } from '/@/store/modules/user';
   const queryParam = reactive<any>({});
@@ -54,7 +54,7 @@
   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: '库区表',
+           title: '承运商',
            api: list,
            columns,
            canResize:false,
@@ -77,7 +77,7 @@
             },
       },
        exportConfig: {
-            name:"库区表",
+            name:"承运商",
             url: getExportUrl,
             params: queryParam,
           },
@@ -156,7 +156,7 @@
          {
            label: '编辑',
            onClick: handleEdit.bind(null, record),
-           auth: 'warehouse:wms_storage_zones:edit'
+           auth: 'goods:wms_carrier:edit'
          }
        ]
    }
@@ -175,7 +175,7 @@
              confirm: handleDelete.bind(null, record),
              placement: 'topLeft',
            },
-           auth: 'warehouse:wms_storage_zones:delete'
+           auth: 'goods:wms_carrier:delete'
          }
        ]
    }

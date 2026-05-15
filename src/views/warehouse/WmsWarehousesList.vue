@@ -5,8 +5,8 @@
      <!--插槽:table标题-->
       <template #tableTitle>
           <a-button type="primary" v-auth="'warehouse:wms_warehouses:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'warehouse:wms_warehouses:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" v-auth="'warehouse:wms_warehouses:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+<!--          <a-button  type="primary" v-auth="'warehouse:wms_warehouses:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>-->
+<!--          <j-upload-button type="primary" v-auth="'warehouse:wms_warehouses:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>-->
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -21,7 +21,7 @@
               </a-button>
         </a-dropdown>
         <!-- 高级查询 -->
-        <super-query :config="superQueryConfig" @search="handleSuperQuery" />
+<!--        <super-query :config="superQueryConfig" @search="handleSuperQuery" />-->
       </template>
        <!--操作栏-->
       <template #action="{ record }">
@@ -120,7 +120,21 @@
        showFooter: true,
      });
    }
-   /**
+
+  /**
+   *启用
+   */
+  function handleEnable(record: Recordable){
+    enable({id: record.id}, handleSuccess);
+  }
+
+  /**
+   * 禁用
+   */
+  function handleDisable(record: Recordable){
+    disable({id: record.id}, handleSuccess);
+  }
+  /**
     * 详情
    */
   function handleDetail(record: Recordable) {
@@ -148,28 +162,29 @@
   function handleSuccess() {
       (selectedRowKeys.value = []) && reload();
    }
-  /**
-   * 操作栏
-   */
+   /**
+      * 操作栏
+      */
   function getTableAction(record){
-    return [
-      {
-        label: '编辑',
-        onClick: handleEdit.bind(null, record),
-        auth: 'warehouse:wms_warehouses:edit'
-      },
-      //启用
-      {
-        label: '启用',
-        onClick: handleEnable.bind(null, record),
-      },
-      //禁用
-      {
-        label: '禁用',
-        onClick: handleDisable.bind(null, record),
-      }
-    ]
-  }
+       return [
+         {
+           label: '编辑',
+           onClick: handleEdit.bind(null, record),
+           auth: 'warehouse:wms_warehouses:edit'
+         },
+         //启用
+          {
+            label: '启用',
+            onClick: handleEnable.bind(null, record),
+            auth: 'warehouse:wms_warehouses:edit'
+          },
+         //禁用
+          {
+            label: '禁用',
+            onClick: handleDisable.bind(null, record),
+          }
+       ]
+   }
      /**
         * 下拉操作栏
         */
@@ -190,18 +205,6 @@
        ]
    }
 
-  /**
-   * 启用事件
-   */
-  async function handleEnable(record) {
-    await enable({id: record.id}, handleSuccess);
-  }
-  /**
-   * 禁用事件
-   */
-  async function handleDisable(record) {
-    await disable({id: record.id}, handleSuccess);
-  }
 
 </script>
 

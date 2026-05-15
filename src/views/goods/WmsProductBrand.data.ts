@@ -12,22 +12,26 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'name'
    },
-  {
+   {
     title: '品牌logo',
     align:"center",
     dataIndex: 'logo',
-    customRender: ({ text }) => {
-      if(!text){
-        return text;
-      }
-      text=glob.viewUrl+text;
-      return render.renderImage({text});
-    },
-  },
+     customRender: ({ text }) => {
+       if(!text){
+         return text;
+       }
+        text=glob.viewUrl+text;
+       console.log("glob.viewUrl+text="+text);
+       return render.renderImage({text});
+     },
+   },
    {
     title: '状态',
     align:"center",
-    dataIndex: 'status_dictText'
+    dataIndex: 'status',
+     customRender: ({text}) => {
+       return render.renderDict(text, 'wms_status');
+     }
    },
 ];
 //查询数据
@@ -58,10 +62,10 @@ export const formSchema: FormSchema[] = [
       dictCode:"wms_status",
     },
     dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入状态!'},
-          ];
-     },
+      return [
+        { required: true, message: '请输入状态!'},
+      ];
+    },
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{

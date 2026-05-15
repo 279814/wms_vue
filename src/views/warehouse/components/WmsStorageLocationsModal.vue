@@ -10,8 +10,7 @@
     import {BasicForm, useForm} from '/@/components/Form/index';
     import {formSchema} from '../WmsStorageLocations.data';
     import {saveOrUpdate} from '../WmsStorageLocations.api';
-    import {list as storageZones} from "@/views/warehouse/WmsStorageZones.api"
-
+    import {list as storageZones} from "@/views/warehouse/WmsStorageZones.api";
     // Emits声明
     const emit = defineEmits(['register','success']);
     const isUpdate = ref(true);

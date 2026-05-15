@@ -11,47 +11,7 @@ enum Api {
   deleteBatch = '/warehouse/wmsStorageLocations/deleteBatch',
   importExcel = '/warehouse/wmsStorageLocations/importExcel',
   exportXls = '/warehouse/wmsStorageLocations/exportXls',
-  //启用
-  enable = '/warehouse/wmsStorageLocations/enable',
-  //禁用
-  disable = '/warehouse/wmsStorageLocations/disable',
 }
-
-/**
- * 启用
- */
-export const enable = (params, handleSuccess) => {
-  createConfirm({
-    iconType: 'warning',
-    title: '确认启用',
-    content: '是否启用选中数据',
-    okText: '确认',
-    cancelText: '取消',
-    onOk: () => {
-      return defHttp.put({url: Api.enable, data: params},{joinParamsToUrl: true}).then(() => {
-        handleSuccess();
-      });
-    }
-  })
-}
-/**
- * 禁用
- */
-export const disable = (params, handleSuccess) => {
-  createConfirm({
-    iconType: 'warning',
-    title: '确认禁用',
-    content: '是否禁用选中数据',
-    okText: '确认',
-    cancelText: '取消',
-    onOk: () => {
-      return defHttp.put({url: Api.disable, data: params},{joinParamsToUrl: true}).then(() => {
-        handleSuccess();
-      });
-    }
-  })
-}
-
 /**
  * 导出api
  * @param params
@@ -67,6 +27,14 @@ export const getImportUrl = Api.importExcel;
  */
 export const list = (params) =>
   defHttp.get({url: Api.list, params});
+/**
+ * 拣货储位列表接口
+ * @param params
+ */
+export const listByPickType = (params) =>{
+  params['locationType']='PICKING_LOC';//储位类型为拣选位
+  return defHttp.get({url: Api.list, params});
+}
 
 /**
  * 删除单个

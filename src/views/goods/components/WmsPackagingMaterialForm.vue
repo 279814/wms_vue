@@ -12,11 +12,11 @@
     import {computed, defineComponent} from 'vue';
     import {defHttp} from '/@/utils/http/axios';
     import { propTypes } from '/@/utils/propTypes';
-    import {getBpmFormSchema} from '../WmsProducts.data';
-    import {saveOrUpdate} from '../WmsProducts.api';
-
+    import {getBpmFormSchema} from '../WmsPackagingMaterial.data';
+    import {saveOrUpdate} from '../WmsPackagingMaterial.api';
+    
     export default defineComponent({
-        name: "WmsProductsForm",
+        name: "WmsPackagingMaterialForm",
         components:{
             BasicForm
         },
@@ -29,7 +29,7 @@
                 labelWidth: 150,
                 schemas: getBpmFormSchema(props.formData),
                 showActionButtonGroup: false,
-                baseColProps: {span: 8}
+                baseColProps: {span: 24}
             });
 
             const formDisabled = computed(()=>{
@@ -40,7 +40,7 @@
             });
 
             let formData = {};
-            const queryByIdUrl = '/goods/wmsProducts/queryById';
+            const queryByIdUrl = '/goods/wmsPackagingMaterial/queryById';
             async function initFormData(){
                 let params = {id: props.formData.dataId};
                 const data = await defHttp.get({url: queryByIdUrl, params});
@@ -59,7 +59,7 @@
             }
 
             initFormData();
-
+            
             return {
                 registerForm,
                 formDisabled,

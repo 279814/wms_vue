@@ -3,6 +3,9 @@ import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import { getWeekMonthQuarterYear } from '/@/utils';
+import {duplicateCheckDelay} from "@/views/system/user/user.api";
+import {list, list as warehouseList} from "@/views/warehouse/WmsWarehouses.api";
+import {list as storageZones} from "@/views/warehouse/WmsStorageZones.api";
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -11,9 +14,12 @@ export const columns: BasicColumn[] = [
     dataIndex: 'locationCode'
    },
    {
-    title: '储位类别',
+    title: '库位类别',
     align:"center",
-    dataIndex: 'locationCategory_dictText'
+    dataIndex: 'locationCategory',
+     customRender: ({text}) => {
+       return render.renderDict(text, 'location_category');
+     }
    },
    {
     title: '库位类型',
@@ -23,18 +29,41 @@ export const columns: BasicColumn[] = [
    {
     title: '状态',
     align:"center",
-    dataIndex: 'status_dictText'
+     dataIndex: 'status',
+     customRender: ({text}) => {
+       return render.renderDict(text, 'wms_status');
+     }
    },
-   {
+   // {
+   //  title: '所属仓库',
+   //  align:"center",
+   //  dataIndex: 'warehouseId'
+   // },
+  {
     title: '所属仓库',
     align:"center",
-    dataIndex: 'warehouseName'
-   },
-   {
+    dataIndex: 'warehouse.warehouseName',
+    customRender: ({ record }) => {
+      if(record.warehouse){
+        return record.warehouse.warehouseName
+      }
+    }
+  },
+   // {
+   //  title: '所属库区',
+   //  align:"center",
+   //  dataIndex: 'zoneId'
+   // },
+  {
     title: '所属库区',
     align:"center",
-    dataIndex: 'zoneName'
-   },
+    dataIndex: 'storageZones.zoneName',
+    customRender: ({ record }) => {
+      if(record.storageZones){
+        return record.storageZones.zoneName
+      }
+    }
+  },
    {
     title: '巷道',
     align:"center",
@@ -83,11 +112,20 @@ export const columns: BasicColumn[] = [
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+  //所属仓库
+   {
+     label: '所属仓库',
+     field: 'warehouseId',
+     component: 'ApiSelect',
+     componentProps: {
+       api: warehouseList,
+       resultField: 'records',
+       labelField: 'warehouseName',
+       valueField: 'id',
+       placeholder: '所属仓库',
+     },
+   }
 ];
-
-import { list as warehouseList} from "@/views/warehouse/WmsWarehouses.api";
-import {list as storageZones} from "@/views/warehouse/WmsStorageZones.api";
-
 //表单数据
 export const formSchema: FormSchema[] = [
   {
@@ -101,15 +139,15 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '储位类别',
+    label: '库位类别',
     field: 'locationCategory',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"location_category"
-     },
+      dictCode:"location_category"
+    },
     dynamicRules: ({model,schema}) => {
           return [
-                 { required: true, message: '请输入储位类别!'},
+                 { required: true, message: '请输入库位类别!'},
           ];
      },
   },
@@ -129,14 +167,14 @@ export const formSchema: FormSchema[] = [
   {
     label: '状态',
     field: 'status',
+    defaultValue: "CREATED",
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"wms_status",
-        disabled: true,
+        dictCode:"wms_status"
      },
     dynamicRules: ({model,schema}) => {
           return [
-                 { required: true, message: '请输入状态!'},
+                 { required: true, message: '请输入状态: 0-禁用, 1-启用!'},
           ];
      },
   },
@@ -203,6 +241,53 @@ export const formSchema: FormSchema[] = [
       placeholder: '所属库区',
     },
   },
+  // {
+  //   label: '所属库区',
+  //   field: 'zoneId',
+  //   component: 'ApiSelect',
+  //   componentProps: {
+  //     api: storageZones,
+  //     resultField: 'records',
+  //     labelField: 'zoneName',
+  //     valueField: 'id',
+  //     placeholder: '所属库区',
+  //   },
+  //   dynamicRules: ({model,schema}) => {
+  //         return [
+  //                { required: true, message: '请输入所属库区!'},
+  //         ];
+  //    },
+  // },
+
+  // {
+  //   field: 'zoneId',
+  //   component: 'JTreeSelect',
+  //   label: '所属库区',
+  //   // helpMessage: ['component模式'],
+  //   componentProps: {
+  //     // dict: 'sys_test,name,id',
+  //     dict: 'wms_storage_zones_view,name,id',
+  //     pidField: 'parent_id',
+  //   },
+  //   dynamicRules: ({values}) => {
+  //     return [
+  //       { required: true, message: '请选择所属库区!',
+  //         validator: (_, value) => {
+  //           //如果value以'A'开头说明是仓库不是库区
+  //           if (value && value.startsWith('A')) {
+  //             return Promise.reject(new Error('请选择所属库区'));
+  //           } else {
+  //             return Promise.resolve();
+  //           }
+  //         },
+  //       },
+  //
+  //     ];
+  //   },
+  //   colProps: {
+  //     span: 12,
+  //   },
+  // },
   {
     label: '巷道',
     field: 'locationAisle',
@@ -263,14 +348,24 @@ export const formSchema: FormSchema[] = [
 	  component: 'Input',
 	  show: false
 	},
+  //表单初始标记
+   {
+     label: '',
+     field: 'isStart',
+     component: 'Input',
+     show: false,
+     defaultValue: '1'
+   }
+
+
 ];
 
 // 高级查询数据
 export const superQuerySchema = {
   locationCode: {title: '库位编码',order: 0,view: 'text', type: 'string',},
-  locationCategory: {title: '储位类别',order: 1,view: 'text', type: 'string',},
+  locationCategory: {title: '库位类别',order: 1,view: 'text', type: 'string',},
   locationType: {title: '库位类型',order: 2,view: 'list', type: 'string',dictCode: 'location_type',},
-  status: {title: '状态',order: 3,view: 'list', type: 'string',dictCode: 'dict_item_status',},
+  status: {title: '状态: 0-禁用, 1-启用',order: 3,view: 'list', type: 'string',dictCode: 'dict_item_status',},
   warehouseId: {title: '所属仓库',order: 4,view: 'link_table', type: 'string',},
   zoneId: {title: '所属库区',order: 5,view: 'link_table', type: 'string',},
   locationAisle: {title: '巷道',order: 6,view: 'text', type: 'string',},

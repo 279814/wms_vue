@@ -11,19 +11,19 @@ export const columns: BasicColumn[] = [
     dataIndex: 'categoryName'
    },
    {
-    title: '父节点',
-    align: 'center',
-    dataIndex: 'parentId'
+    title: '类别编码',
+    align: 'left',
+    dataIndex: 'categoryCode'
    },
+   // {
+   //  title: '父节点',
+   //  align: 'center',
+   //  dataIndex: 'parentId'
+   // },
    {
-    title: '状态',
+    title: '状态 ',
     align: 'center',
     dataIndex: 'status_dictText'
-   },
-   {
-    title: '节点编码',
-    align: 'center',
-    dataIndex: 'categoryCode'
    },
 ];
 //查询数据
@@ -48,35 +48,28 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       dict: "wms_product_categories,category_name,id",
       pidField: "parent_id",
-      pidValue: "0",
+      pidValue: "-1",
       hasChildField: "has_child",
     },
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入父节点!'},
-          ];
-     },
+    // dynamicRules: ({model,schema}) => {
+    //       return [
+    //              { required: true, message: '请输入父节点!'},
+    //       ];
+    //  },
   },
   {
-    label: '状态',
+    label: '状态 ',
     field: 'status',
+    defaultValue: "1",
     component: 'JDictSelectTag',
     componentProps:{
         dictCode:"dict_item_status"
      },
     dynamicRules: ({model,schema}) => {
           return [
-                 { required: true, message: '请输入状态 0-未启用 1-启用!'},
+                 { required: true, message: '请输入状态 !'},
           ];
      },
-  },
-  {
-    label: '节点编码',
-    field: 'categoryCode',
-    component: 'Input',
-    componentProps:{
-      disabled: true,
-    },
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{
@@ -91,8 +84,7 @@ export const formSchema: FormSchema[] = [
 export const superQuerySchema = {
   categoryName: {title: '类别名称',order: 0,view: 'text', type: 'string',},
   parentId: {title: '父节点',order: 1,view: 'text', type: 'string',},
-  status: {title: '状态 0-未启用 1-启用',order: 2,view: 'list', type: 'string',dictCode: 'dict_item_status',},
-  categoryCode: {title: '节点编码',order: 3,view: 'text', type: 'string',},
+  status: {title: '状态 ',order: 2,view: 'list', type: 'string',dictCode: 'dict_item_status',},
 };
 
 

@@ -4,17 +4,13 @@ import { useMessage } from "/@/hooks/web/useMessage";
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/warehouse/wmsWarehouses/list',
-  save='/warehouse/wmsWarehouses/add',
-  edit='/warehouse/wmsWarehouses/edit',
-  deleteOne = '/warehouse/wmsWarehouses/delete',
-  deleteBatch = '/warehouse/wmsWarehouses/deleteBatch',
-  importExcel = '/warehouse/wmsWarehouses/importExcel',
-  exportXls = '/warehouse/wmsWarehouses/exportXls',
-  //启用
-  enable = '/warehouse/wmsWarehouses/enable',
-  //禁用
-  disable = '/warehouse/wmsWarehouses/disable',
+  list = '/goods/wmsCarrier/list',
+  save='/goods/wmsCarrier/add',
+  edit='/goods/wmsCarrier/edit',
+  deleteOne = '/goods/wmsCarrier/delete',
+  deleteBatch = '/goods/wmsCarrier/deleteBatch',
+  importExcel = '/goods/wmsCarrier/importExcel',
+  exportXls = '/goods/wmsCarrier/exportXls',
 }
 /**
  * 导出api
@@ -65,38 +61,4 @@ export const batchDelete = (params, handleSuccess) => {
 export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({url: url, params});
-}
-/**
- * 启用
- */
-export const enable = (params, handleSuccess) => {
-  createConfirm({
-    iconType: 'warning',
-    title: '确认启用',
-    content: '是否启用选中数据',
-    okText: '确认',
-    cancelText: '取消',
-    onOk: () => {
-      return defHttp.put({url: Api.enable, data: params}).then(() => {
-        handleSuccess();
-      });
-    }
-  })
-}
-/**
- * 禁用
- */
-export const disable = (params, handleSuccess) => {
-  createConfirm({
-    iconType: 'warning',
-    title: '确认禁用',
-    content: '是否禁用选中数据',
-    okText: '确认',
-    cancelText: '取消',
-    onOk: () => {
-      return defHttp.put({url: Api.disable, data: params}).then(() => {
-        handleSuccess();
-      });
-    }
-  })
 }
