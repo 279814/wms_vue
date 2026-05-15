@@ -1,0 +1,104 @@
+import {defHttp} from '/@/utils/http/axios';
+import { useMessage } from "/@/hooks/web/useMessage";
+
+const { createConfirm } = useMessage();
+
+enum Api {
+  list = '/warehouse/wmsStorageZones/list',
+  save='/warehouse/wmsStorageZones/add',
+  edit='/warehouse/wmsStorageZones/edit',
+  deleteOne = '/warehouse/wmsStorageZones/delete',
+  deleteBatch = '/warehouse/wmsStorageZones/deleteBatch',
+  importExcel = '/warehouse/wmsStorageZones/importExcel',
+  exportXls = '/warehouse/wmsStorageZones/exportXls',
+  //启用
+  enable = '/warehouse/wmsStorageZones/enable',
+  //禁用
+  disable = '/warehouse/wmsStorageZones/disable',
+}
+
+/**
+ * 启用
+ */
+export const enable = (params, handleSuccess) => {
+  createConfirm({
+    iconType: 'warning',
+    title: '确认启用',
+    content: '是否启用选中数据',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.put({url: Api.enable, data: params},{joinParamsToUrl: true}).then(() => {
+        handleSuccess();
+      });
+    }
+  })
+}
+/**
+ * 禁用
+ */
+export const disable = (params, handleSuccess) => {
+  createConfirm({
+    iconType: 'warning',
+    title: '确认禁用',
+    content: '是否禁用选中数据',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.put({url: Api.disable, data: params},{joinParamsToUrl: true}).then(() => {
+        handleSuccess();
+      });
+    }
+  })
+}
+
+/**
+ * 导出api
+ * @param params
+ */
+export const getExportUrl = Api.exportXls;
+/**
+ * 导入api
+ */
+export const getImportUrl = Api.importExcel;
+/**
+ * 列表接口
+ * @param params
+ */
+export const list = (params) =>
+  defHttp.get({url: Api.list, params});
+
+/**
+ * 删除单个
+ */
+export const deleteOne = (params,handleSuccess) => {
+  return defHttp.delete({url: Api.deleteOne, params}, {joinParamsToUrl: true}).then(() => {
+    handleSuccess();
+  });
+}
+/**
+ * 批量删除
+ * @param params
+ */
+export const batchDelete = (params, handleSuccess) => {
+  createConfirm({
+    iconType: 'warning',
+    title: '确认删除',
+    content: '是否删除选中数据',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
+        handleSuccess();
+      });
+    }
+  });
+}
+/**
+ * 保存或者更新
+ * @param params
+ */
+export const saveOrUpdate = (params, isUpdate) => {
+  let url = isUpdate ? Api.edit : Api.save;
+  return defHttp.post({url: url, params});
+}
