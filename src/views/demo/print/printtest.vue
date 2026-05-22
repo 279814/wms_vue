@@ -50,7 +50,7 @@ function printWeb() {
   // const template = hiprintTemplate.getJson();
   hiprintTemplate.print(printData.value, {}, {
     styleHandler: () => {
-      return '<link href="http://xx/print-lock.css" media="print" rel="stylesheet">'
+      return '<link href="https://jzo2o-oss.oss-cn-hangzhou.aliyuncs.com/upload/test/print-lock_1756613766375.css" media="print" rel="stylesheet">'
     }
   })
 }

@@ -175,7 +175,7 @@ export const receive_list_columns: BasicColumn[] = [
    {
     title: '执行人',
     align:"center",
-    dataIndex: 'operator'
+    dataIndex: 'userName'
    },
    {
     title: '执行时间',
@@ -268,7 +268,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '执行数量',
-    field: 'completedQuantity',
+    field: 'execQuantity',
     component: 'InputNumber',
   },
   {
@@ -323,7 +323,15 @@ export const formSchema: FormSchema[] = [
   {
     label: '库存属性',
     field: 'inventoryAttribute',
-    component: 'Input',
+    component: 'JDictSelectTag',
+    componentProps:{
+      dictCode:"inventory_attribute"
+    },
+    dynamicRules: ({model,schema}) => {
+      return [
+        { required: true, message: '请输入库存属性!'},
+      ];
+    },
   },
   {
     label: '任务id',

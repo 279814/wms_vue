@@ -192,8 +192,15 @@
    * 审核入库单
    */
   function handleAudit(record: Recordable) {
+    if(record.status != "SUBMITTED"){
+      createMessage.warn('提交审核状态入库单方可审核')
+      return;
+    }
     openAuditModal(true, {
-      record,
+      record: {
+        ...record,
+        status: 'APPROVED',
+      },
       isUpdate: true,
       showFooter: true,
     });

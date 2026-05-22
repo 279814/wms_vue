@@ -66,10 +66,8 @@
        }
     //表单提交事件
     async function requestAudit(v) {
-      console.log(v)
         try {
             let values = await validate();
-          console.log("values==",values)
             setModalProps({confirmLoading: true});
             //提交表单
             await submitAuditForm(values);
