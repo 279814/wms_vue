@@ -26,7 +26,7 @@
         </Card>
       </template>
 
-      <template v-for="(item, index) in growCardList2" :key="item.title">
+<!--      <template v-for="(item, index) in growCardList2" :key="item.title">
         <Card
           size="small"
           :loading="loading"
@@ -49,7 +49,7 @@
             <CountTo prefix="" :startVal="1" :endVal="item.total" />
           </div>
         </Card>
-      </template>
+      </template>-->
     </div>
 
 
@@ -152,10 +152,17 @@ const growCardList= ref( [
       total: 0,
       action: '当天',
     },
+    {
+      title: '待发货数',
+      icon: 'transaction|svg',
+      value: 0,
+      total: 0,
+      action: '当天',
+    }
   ]);
 const growCardList2= ref( [
     {
-      title: '待打包数',
+      title: '待发货数',
       icon: 'transaction|svg',
       value: 0,
       total: 0,

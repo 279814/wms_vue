@@ -19,7 +19,7 @@
       <div class="rightArea" :class="[expand ? 'expand' : 'shrink']" >
         <!--          url="/airag/chat/send"-->
         <chat
-          url="/airag/chat/send"
+          url="/ai/chat/send"
           v-if="uuid && chatVisible"
           :uuid="uuid"
           :historyData="chatData"

@@ -102,7 +102,7 @@ CreatePrinterList();
 const sdkCallback = result => {};
 const sdkParams = {
   env: "sbox", // 生产：pro；沙箱：sbox。不传默认生产，转生产需要修改这里
-  partnerID: "Y2VL6F82",
+  partnerID: "YZ2CUPEX",
   callback: sdkCallback,
   notips: false
 };
@@ -123,7 +123,7 @@ function print() {
   const data = {
     requestID: generateSerial(),
     accessToken: printWaybillsParams.token,
-    templateCode: "fm_150_standard_Y2VL6F82",
+    templateCode: "fm_150_standard_YZ2CUPEX",
     templateVersion: "",
     documents: printWaybillsParams.documents,
     // documents: [

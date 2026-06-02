@@ -9,6 +9,7 @@ import {Input} from "ant-design-vue";
 import {list} from "@/views/warehouse/WmsWarehouses.api";
 import {defHttp} from "@/utils/http/axios";
 import {getTenantId, getToken} from '/@/utils/auth';
+
 //列表数据
 export const columns: BasicColumn[] = [
    {
